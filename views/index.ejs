@@ -1,0 +1,15 @@
+<%- include('partials/header') %> 
+
+  <h1><%= title %></h1>
+  <p>List of all things you have to do:</p>
+  <ul>
+  <% todos.forEach(todo => { %>
+    <% if (todo == 'Write code!') { %>
+      <li><%= todo %> *<strong>Please take a rest!</strong></li>
+    <% } else { %>
+      <li><%= todo %></li>
+    <% } %>
+  <% }) %>
+  </ul>
+
+<%- include('partials/footer') %>
