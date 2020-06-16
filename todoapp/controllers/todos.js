@@ -32,9 +32,20 @@ module.exports = {
       error: false
     }
 
+    let biggestId = 0
+
+    
+
     try {
       let todo = req.body
-      todo.id = todos.length + 1
+
+      todos.forEach(todo => {
+        if (todo.id > biggestId) {
+          biggestId = todo.id
+        }
+      })
+  
+      todo.id = biggestId + 1
 
       todos.push(todo)
     } catch (error) {
@@ -58,12 +69,34 @@ module.exports = {
         }
       })
 
-      console.log(todo)
-      
       todo.title = req.body.title
       todo.description = req.body.description
       
       resContent.message = 'You have successfully update the todo with id #' + todo.id
+    } catch (error) {
+      resContent.message = 'An error occured: ' + error.message
+      resContent.error = true
+    }
+
+    res.render('index', resContent)
+  },
+  delete: (req, res) => {
+    let resContent = { 
+      title: 'Todos', 
+      todos: todos,
+      error: false
+    }
+
+    try {
+      todos = todos.filter(todo => {
+        if (todo.id != req.params.id) {
+          return todo
+        }
+      })
+
+      resContent.todos = todos
+
+      resContent.message = 'You have successfully deleted the todo with id #' + req.params.id
     } catch (error) {
       resContent.message = 'An error occured: ' + error.message
       resContent.error = true

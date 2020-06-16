@@ -7,5 +7,6 @@ router.get('/', todos_controller.index)
       .get('/update/:id', todos_controller.get_update)
       .post('/create', todos_controller.post_create)
       .post('/update/:id', todos_controller.post_update)
+      .get('/delete/:id', todos_controller.delete)
 
 module.exports = router
