@@ -1,0 +1,16 @@
+<%- include('partials/header') %> 
+  <div class="app">
+    <a href="/create">Create new</a>
+    <% if (todos.length) { %>
+      <p>List of all things you have to do:</p>
+      <ul>
+      <% todos.forEach(todo => { %>
+        <li><strong><%= todo.title %></strong> (<%= todo.description %>)</li>
+      <% }) %>
+      </ul>
+    <% } else { %>
+       <p>You have nothing to do!</p>
+    <% } %>
+  </div>
+
+<%- include('partials/footer') %>
