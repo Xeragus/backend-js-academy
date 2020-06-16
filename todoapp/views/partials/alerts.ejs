@@ -1,0 +1,5 @@
+<% if (typeof error !== 'undefined' && typeof message !== 'undefined') { %>
+  <div class="<%- error ? 'error-alert' : 'success-alert' %> ">
+    <p><%= message %> </p>
+  </div>
+<% } %>

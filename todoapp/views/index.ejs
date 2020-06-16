@@ -1,11 +1,15 @@
 <%- include('partials/header') %> 
   <div class="app">
+    <%- include('partials/alerts') %> 
     <a href="/create">Create new</a>
     <% if (todos.length) { %>
       <p>List of all things you have to do:</p>
       <ul>
       <% todos.forEach(todo => { %>
-        <li><strong><%= todo.title %></strong> (<%= todo.description %>)</li>
+        <li>
+          <strong><%= todo.title %></strong> (<%= todo.description %>)
+          <a href="/update/<%= todo.id %>">Update</a>
+        </li>
       <% }) %>
       </ul>
     <% } else { %>

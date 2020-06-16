@@ -18,15 +18,23 @@ module.exports = {
     })
   },
   post_create: (req, res) => {
-    let todo = req.body
-    todo.id = todos.length + 1
-
-    todos.push(todo)
-
-    res.render('index', { 
+    let resContent = { 
       title: 'Todos', 
       todos: todos,
-      message: 'You have successfully created new todo!'
-    })
+      message: 'You have successfully created new todo!',
+      error: false
+    }
+
+    try {
+      let todo = req.body
+      todo.id = todos.length + 1
+
+      todos.push(todo)
+    } catch (error) {
+      resContent.message = 'An error occured: ' + error.message
+      resContent.error = true
+    }
+
+    res.render('index', resContent)
   }
 }
