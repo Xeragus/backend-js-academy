@@ -103,5 +103,17 @@ module.exports = {
     }
 
     res.render('index', resContent)
+  },
+  complete: (req, res) => {
+    const todo = todos.find(todo => {
+      if (todo.id == req.params.id) return todo
+    })
+
+    todo.completed = true
+
+    res.render('index', { 
+      title: 'Todos', 
+      todos: todos
+    })
   }
 }

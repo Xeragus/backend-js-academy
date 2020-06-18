@@ -7,9 +7,14 @@
       <ul>
       <% todos.forEach(todo => { %>
         <li>
-          <strong><%= todo.title %></strong> (<%= todo.description %>) <i>#<%- todo.id %> </i>
+          <% if (todo.completed === true) { %>
+           <strike><strong><%= todo.title %></strong> (<%= todo.description %>) <i>#<%- todo.id %> </i></strike>
+          <% } else { %>
+            <strong><%= todo.title %></strong> (<%= todo.description %>) <i>#<%- todo.id %> </i>
+          <% } %>
           <a href="/update/<%= todo.id %>">Update</a>
           <a href="/delete/<%= todo.id %>">Delete</a>
+          <a href="/complete/<%= todo.id %>">Complete</a>
         </li>
       <% }) %>
       </ul>
