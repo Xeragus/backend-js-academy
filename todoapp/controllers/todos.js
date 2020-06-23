@@ -81,7 +81,7 @@ module.exports = {
     res.render('index', resContent)
   },
   delete: (req, res) => {
-    let resContent = { 
+    const resContent = { 
       title: 'Todos', 
       todos: todos,
       error: false
