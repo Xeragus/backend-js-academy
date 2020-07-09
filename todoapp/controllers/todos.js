@@ -1,53 +1,62 @@
-let todos = []
+const Todo = require('../models/todo')
+    , mongoose = require('mongoose')
+const { db } = require('../models/todo')
 
 module.exports = {
-  index: (req, res) => {
-    res.render('index', { 
+  index: async (req, res) => {
+    const resContent = { 
       title: 'Todos', 
-      todos: todos
-    })
+      todos: [],
+      error: false
+    }
+
+    try {
+      resContent.todos = await Todo.find()
+    } catch (error) {
+      resContent.message = 'An error occured: ' + error.message
+      resContent.error = true
+    }
+
+    res.render('index', resContent)
   },
   get_create: (req, res) => {
     res.render('create', {
       title: 'Create todo'
     })
   },
-  get_update:  (req, res) => {
-    const todo = todos.find(todo => {
-      if (todo.id == req.params.id) {
-        return todo
-      }
-    })
-
-    res.render('update', {
+  get_update: async (req, res) => {
+    const resContent = {
       title: 'Update todo',
-      todo: todo
-    })
+      todo: null,
+      error: false
+    }
+
+    try {
+      resContent.todo = await Todo.findOne({ _id: req.params.id })
+    } catch (error) {
+      resContent.message = 'An error occured: ' + error.message
+      resContent.error = true
+    }
+
+    res.render('update', resContent)
   },
-  post_create: (req, res) => {
+  post_create: async (req, res) => {
     let resContent = { 
       title: 'Todos', 
-      todos: todos,
+      todos: [],
       message: 'You have successfully created new todo!',
       error: false
     }
 
-    let biggestId = 0
-
-    
-
     try {
-      let todo = req.body
-
-      todos.forEach(todo => {
-        if (todo.id > biggestId) {
-          biggestId = todo.id
-        }
+      const todo = new Todo({
+        _id: new mongoose.Types.ObjectId(),
+        title: req.body.title,
+        description: req.body.description
       })
-  
-      todo.id = biggestId + 1
+      await todo.save()
 
-      todos.push(todo)
+      resContent.todos = await Todo.find()
     } catch (error) {
       resContent.message = 'An error occured: ' + error.message
       resContent.error = true
@@ -55,24 +64,24 @@ module.exports = {
 
     res.render('index', resContent)
   },
-  post_update: (req, res) => {
+  post_update: async (req, res) => {
     let resContent = { 
       title: 'Todos', 
-      todos: todos,
+      todos: [],
       error: false
     }
 
     try {
-      const todo = todos.find(todo => {
-        if (todo.id == req.params.id) {
-          return todo
+      await Todo.update({ _id: req.params.id }, {
+        $set: {
+          title: req.body.title,
+          description: req.body.description
         }
       })
 
-      todo.title = req.body.title
-      todo.description = req.body.description
-      
-      resContent.message = 'You have successfully update the todo with id #' + todo.id
+      resContent.todos = await Todo.find()
+
+      resContent.message = 'You have successfully update the todo with id #' + req.params.id
     } catch (error) {
       resContent.message = 'An error occured: ' + error.message
       resContent.error = true
@@ -80,21 +89,16 @@ module.exports = {
 
     res.render('index', resContent)
   },
-  delete: (req, res) => {
+  delete: async (req, res) => {
     const resContent = { 
       title: 'Todos', 
-      todos: todos,
+      todos: [],
       error: false
     }
 
     try {
-      todos = todos.filter(todo => {
-        if (todo.id != req.params.id) {
-          return todo
-        }
-      })
-
-      resContent.todos = todos
+      await Todo.remove({ _id: req.params.id })
+      resContent.todos = await Todo.find()
 
       resContent.message = 'You have successfully deleted the todo with id #' + req.params.id
     } catch (error) {
@@ -104,16 +108,26 @@ module.exports = {
 
     res.render('index', resContent)
   },
-  complete: (req, res) => {
-    const todo = todos.find(todo => {
-      if (todo.id == req.params.id) return todo
-    })
-
-    todo.completed = true
-
-    res.render('index', { 
+  complete: async (req, res) => {
+    let resContent = { 
       title: 'Todos', 
-      todos: todos
-    })
+      todos: [],
+      error: false
+    }
+
+    try {
+      await Todo.update({ _id: req.params.id }, {
+        $set: {
+          completed: true
+        }
+      })
+
+      resContent.todos = await Todo.find()
+    } catch (error) {
+      resContent.message = 'An error occured: ' + error.message
+      resContent.error = true
+    }
+
+    res.render('index', resContent)
   }
 }
