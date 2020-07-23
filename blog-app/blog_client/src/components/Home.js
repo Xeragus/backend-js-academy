@@ -7,19 +7,16 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
 });
-
 export default function Home() {
   const classes = useStyles();
-
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
+    <TableContainer component={Paper} style={{width:1000, margin:"auto"}}>
+      <Table className={classes.table} aria-label="simple table" style={{width:900, margin:"auto"}}>
         <TableHead>
           <TableRow>
             <TableCell>#1</TableCell>

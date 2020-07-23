@@ -16,6 +16,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
+import AppsIcon from '@material-ui/icons/Apps';
+import HomeIcon from '@material-ui/icons/Home';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import SettingsIcon from '@material-ui/icons/Settings';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 
 const drawerWidth = 240;
 
@@ -67,24 +73,32 @@ function Nav(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+      <ListItem button key={'Dragana'}>
+            <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+            <ListItemText primary={'Dragana'} />
+      </ListItem>
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+      <ListItem button key={'Home'}>
+            <ListItemIcon><HomeIcon /></ListItemIcon>
+            <ListItemText primary={'Home'} />
+        </ListItem>
+        <ListItem button key={'Create'}>
+            <ListItemIcon><AddIcon /></ListItemIcon>
+            <ListItemText primary={'New'} />
+        </ListItem>
+        <ListItem button key={'Categories'}>
+            <ListItemIcon><AppsIcon /></ListItemIcon>
+            <ListItemText primary={'Categories'} />
+        </ListItem>
+        <ListItem button key={'Settings'}>
+            <ListItemIcon><SettingsIcon /></ListItemIcon>
+            <ListItemText primary={'Settings'} />
+        </ListItem>
       </List>
-    </div>
-  );
+    </div>)
+
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
