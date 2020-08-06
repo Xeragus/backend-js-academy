@@ -12,11 +12,11 @@ export default function Create() {
       content,
       author: 'Boban Sugareski'
     })
-    .then((res) => {
+    .then(res => {
       console.log('WUHUUU PRVATA KOMPLETNA APLIKACIJA')
       console.log(res)
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('SE SLUCI GRESKA :(')
       console.log(err)
     })

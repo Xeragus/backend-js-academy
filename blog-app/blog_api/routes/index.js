@@ -1,32 +1,10 @@
 var express = require('express');
 var router = express.Router();
-const Post = require('../models/post')
-const mongoose = require('mongoose')
+const posts_controller = require('../controllers/posts_controller')
 
 router
-  .post('/create', async (req, res) => {
-    const resContent = {
-      message: 'Post is successfully created!',
-      error: false
-    }
-
-    try {
-      const post = new Post({
-        _id: mongoose.Types.ObjectId(),
-        title: req.body.title,
-        content: req.body.content,
-        author: req.body.author
-      })
-
-      await post.save()
-      
-      resContent.post = post
-    } catch (error) {
-      resContent.error = true
-      resContent.message = error.message
-    }
-
-    res.json(resContent)
-  })
+  .get('/posts', posts_controller.get_posts)
+  .post('/create', posts_controller.create_post)
+  .delete('/posts/:id', posts_controller.delete_post)
 
 module.exports = router;
